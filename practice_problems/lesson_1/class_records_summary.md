@@ -1,3 +1,6 @@
+# Class Records Summary - Practice Problem
+
+```js
 /*
 Problem:
 - write a function that finds the percent and letter grade for all students
@@ -91,16 +94,16 @@ function organizeExamObjects(examsByDate) {
   let examKeys = Object.keys(examsByDate);
   let examObjects = examKeys.map(examKey => {
     let average = examsByDate[examKey].reduce((total, value) => (total + value));
-    average = Number((average / 5).toFixed(1));
-    let min = Math.min(...examsByDate[examKey]);
-    let max = Math.max(...examsByDate[examKey]);
+                    average = Number((average / 5).toFixed(1));
+                    let min = Math.min(...examsByDate[examKey]);
+                    let max = Math.max(...examsByDate[examKey]);
 
-    return {
-      average: average,
-      minimum: min,
-      maximum: max,
-    }
-  });
+                    return {
+                      average: average,
+                      minimum: min,
+                      maximum: max,
+                    }
+                  });
 
   return examObjects;
 }
@@ -190,3 +193,4 @@ console.log(generateClassRecordSummary(studentScores));
 //     { average: 91.8, minimum: 80, maximum: 100 },
 //   ],
 // }
+```
