@@ -1,24 +1,20 @@
-// Write a function that takes an array of integers between 0 and 19 and returns an array of those integers sorted based on the English word for each number:
+// Write a function that returns a list of all substrings of a string. Order the returned list by where in the string the substring begins. This means that all substrings that start at index position 0 should come first, then all substrings that start at index position 1, and so on. Since multiple substrings will occur at each position, return the substrings at a given index from shortest to longest.
 
-// zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen
+// You may (and should) use the leadingSubstrings function you wrote in the previous exercise:
 
-// Do not mutate the argument.
+/*
 
-const NUMBERS_AS_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+*/
 
-function alphabeticNumberSort(array) {
-  return array.sort((num1, num2) => {
-           let indexA = array.indexOf(num1)
-           let indexB = array.indexOf(num2)
-           if (NUMBERS_AS_WORDS[indexA] > NUMBERS_AS_WORDS[indexB]) {
-             return 1;
-           } else if (NUMBERS_AS_WORDS[indexA] < NUMBERS_AS_WORDS[indexB]) {
-             return -1
-           } else {
-             return 0;
-           }
-         });
+function substrings(string) {
+  
 }
 
-console.log(alphabeticNumberSort([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]));
-// [8, 18, 11, 15, 5, 4, 14, 9, 19, 1, 7, 17, 6, 16, 10, 13, 3, 12, 2, 0]
+substrings('abcde');
+
+// returns
+// [ "a", "ab", "abc", "abcd", "abcde",
+//   "b", "bc", "bcd", "bcde",
+//   "c", "cd", "cde",
+//   "d", "de",
+//   "e" ]
