@@ -96,22 +96,22 @@ function sentiment(text) {
   let positives = words.filter(word => positiveWords.indexOf(word) >= 0);
   let negatives = words.filter(word => negativeWords.indexOf(word) >= 0);
 
-console.log(`There are ${positives.length} positive words in the text.`);
-console.log(`Positive sentiments: ${positives.join(', ')}.`);
+  console.log(`There are ${positives.length} positive words in the text.`);
+  console.log(`Positive sentiments: ${positives.join(', ')}.`);
 
-console.log(`There are ${negatives.length} negative words in the text.`);
-console.log(`Negative sentiments: ${negatives.join(', ')}.`);
+  console.log(`There are ${negatives.length} negative words in the text.`);
+  console.log(`Negative sentiments: ${negatives.join(', ')}.`);
 
-let sentiment;
-if (positives.length > negatives.length) {
-  sentiment = 'Positive'
-} else if (positives.length < negatives.length) {
-  sentiment = 'Negative'
-} else if (positives.length === negatives.length) {
-  sentiment = 'Neutral'
-}
+  let sentiment;
+  if (positives.length > negatives.length) {
+    sentiment = 'Positive'
+  } else if (positives.length < negatives.length) {
+    sentiment = 'Negative'
+  } else if (positives.length === negatives.length) {
+    sentiment = 'Neutral'
+  }
 
-console.log(`The sentiment of the text is ${sentiment}.`);
+  console.log(`The sentiment of the text is ${sentiment}.`);
 }
 
 sentiment(textExcerpt);
