@@ -1,38 +1,33 @@
 /*
-Write a function that takes a string and returns an object containing the following three properties:
+Write a function that takes a year as an argument and returns the number of 'Friday the 13ths' in that year. You may assume that the year is greater than 1752 (when the modern Gregorian Calendar was adopted by the United Kingdom). You may also assume that the same calendar will remain in use for the foreseeable future.
 
-the percentage of characters in the string that are lowercase letters
-the percentage of characters that are uppercase letters
-the percentage of characters that are neither
-You may assume that the string will always contain at least one character.
+Input: 1 numnber, representing a year
+- years given will be > 1752
 
------------------------------------------------
-Input: 
+Output: 1 numbner, representing the number of friday the 13ths in that year
+- 
 
-Output:
-
------------------------------------------------
 Rules:
+- write a funtion that takes a number (year) as an argument
+- function determines how many fridays fell on the 13th day of the month within the year
+- assume that the same calendar will be used for dates in the future
 
------------------------------------------------
-Goal:
+Implicit:
+- will need to use the Date class
 
------------------------------------------------
 Questions:
+  - how do we handle non-number arguments?
+    return undefined
+  - how do we handle missing arguments?
+    return undefined
+  - is there a maximum year we can expect to handle?
+    no
 
------------------------------------------------
-DS:
 
------------------------------------------------
-Algo:
 
 */
 
-letterPercentages('abCdef 123');
-// { lowercase: "50.00", uppercase: "10.00", neither: "40.00" }
 
-letterPercentages('AbCd +Ef');
-// { lowercase: "37.50", uppercase: "37.50", neither: "25.00" }
-
-letterPercentages('123');
-// { lowercase: "0.00", uppercase: "0.00", neither: "100.00" }
+fridayThe13ths(1986);      // 1
+fridayThe13ths(2015);      // 3
+fridayThe13ths(2017);      // 2
