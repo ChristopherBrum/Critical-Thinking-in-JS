@@ -1,121 +1,172 @@
 /*
-Write a function that displays a four-pointed diamond in an nxn grid, where n is an odd integer supplied as an argument to the function. You may assume that the argument will always be an odd integer.
+Write a function that counts how many concentric layers a rug has.
 
-Input: 1 number
-- argument will always be a number
-- argument will always be odd
+Notes
+Multiple layers can share the same component so count them separately (example #2).
+Layers will be horizontally and vertically symmetric.
+There will be at least one layer for each rug.
 
-Output: series of messages logged to the console
-- this series of messages will constuct a diamoand pattern
-  - will be comprised of '*' and ' ' characters
-  - the diamond messages will be n characters in length maximum
-  - the diamond characters start with 1 '*' centered and end the same way
-  - each massge will increase by 2 '*' characters 
-  - output will consist of one message logged for each n value
-  
+------------------------------------------------
+Input:
+Output:
+
 Rules:
-- function will take one number argument
-- it will contruct a diamond staring with a single '*' character with ' ' characters padding it to the center
-  - center will always be the nth character / 2 rounded up
-- each message will increase the number of '*' characters by 2
-  - each '*' will pad the center '*' character
-- continue padding '*' characterws until the entire mesage is comprised of '*' characters
-- then decrease the '*' character by 2, until there is a single star character
-
-
-- the start and end messages will always contain 1 '*' characters and be padded to the center space
-- each subsequent message will add 2 additional '*' characters padding each side of the center '*' character
-- once a message contains all '*' characters, the sunbsequent messages will begin decreasing the start characters by 2 for each message
-
 
 Questions:
-- arg will always be a whole number
-- arg will never be negative
-- NaN will not be passed in
-- if arg is Infinity, output 'this diamonds is too big'
-
-Examples:
-
-diamond(5);
-// logs
-//   *
-//  ***
-// *****
-//  ***
-//   *
-
-first -> 2 spaces, 1 star
-second -> 1 space, 3 stars
-third -> 0 spaces, 5 stars
-
-DS:
-- utilize an array to contain either strings or subarrays of string characters 
-
-Algo:
-- if the arg is Infinity, log message and return 
-
-- declare an messages var set to an empty array
-- determine the place of the center char of the given argument (center)
-  - divide arg by 2 and round up
-- iterate a number of times equal to center
-  - add center - 1 number of spaces
-  - add 1 star
-  
-  - for each additional iteration
-    - substract 1 from. the number of spaces
-    - add 2 star characters
-- slice the messages array from the beginning  but not including the last element
-- reverse this sliced arr
-- concat reversed arr to message array
-- iterate through the message array and output each string
+- what do we mean by concentric?
 
 */
 
-function diamond(size) {
-  if (!isFinite(size)) {
-    console.log('this diamonds is too big');
-    return;
-  }
-  
-  let messages = [];
-  let shortestStr = Math.round(size / 2);
-  let spaces = shortestStr - 1;
-  let stars = 1;
-  
-  for (let i = 0; i < shortestStr; i += 1) {
-    let spaceStr = Array(spaces).fill(' ').join('');
-    let starStr = Array(stars).fill('*').join('');
-    messages.push(spaceStr + starStr);
-    spaces -= 1;
-    stars += 2;
-  }
-  
-  let top = messages.slice(0, messages.length - 1);
-  let diamondArr = messages.concat(top.reverse());
-  
-  diamondArr.forEach(line => console.log(line));
+countLayers([
+  "AAAA",
+  "ABBA",
+  "AAAA"
+]) // ➞ 2
+
+countLayers([
+  "AAAAAAAAA",
+  "ABBBBBBBA",
+  "ABBAAABBA",
+  "ABBBBBBBA",
+  "AAAAAAAAA"
+]) // ➞ 3
+
+countLayers([
+  "AAAAAAAAAAA",
+  "AABBBBBBBAA",
+  "AABCCCCCBAA",
+  "AABCAAACBAA",
+  "AABCADACBAA",
+  "AABCAAACBAA",
+  "AABCCCCCBAA",
+  "AABBBBBBBAA",
+  "AAAAAAAAAAA"
+]) // ➞ 5
+
+-----------------------------------
+
+/*
+A floor plan is arranged as follows:
+
+You may freely move between rooms 1 and 2.
+You may freely move between rooms 3 and 4.
+However, you can enter the hallway to move between rooms 2 and 4.
+
+Create a function that validates whether the route taken between rooms is possible. The hallway will be given as the letter "H".
+
+Notes
+A route may begin or end in any room (including the hallway).
+All inputs are either numbers 1-4 or the letter "H".
+No rooms will repeat.
+
+-----------------------------------
+Input: 1 array
+- will contain the characters 1-4 and 'H'
+- will always be an array with a combination of the above characters 
+
+Output: 1 boolean
+- determines whether the route given in array form is possible
+
+Rules:
+- write a funtion that determines whether a 'route' is possible 
+- a route may begin an any room, including the 'H'allway
+- no rooms will repeat consecutively
+
+Floor plan:
+- rooms 1 and 2 connect
+- rooms 3 and 4 connect
+- rooms 2 and 4 connect with 'H'
+
+- room 1 can connect with room 2 ONLY
+- room 3 can connect with room 4 ONLY
+- room 2 can connect with room 1 and 'H' ONLY
+- room 4 can connect with room 3 and 'H' ONLY
+- 'H' can connect with room 3 and 4 ONLY
+
+- if no arg is passed in, or if a different type is passed in, or if array is empty...
+  - return undefined and log 'no path provided'
+- if an invalid element is passed in...
+  - return undefined and log 'invalid path'
+
+DS:
+- keep working the given for easy iterate
+- utilize a object to operate as a 'valid moves' tables
+
+Algo:  
+- return undefined and log 'no path provided' if
+  - if no arg is passed in
+  - if a different type is passed in
+  - if array is empty
+- return undefined and log 'invalid path' if
+  - an invalid element is found within the given array
+
+- define a validMoves object to a constant
+- iterate through the array
+  - if idx is 0
+    - set current element to currentRoom
+  - otherwise
+    - if the current value is within the valid moves of the current room
+      - set current value to current room
+    - otherwise return false
+- return true
+
+*/
+
+const VALID_MOVES = { 
+  1: [2],
+  2: [1, 'H'],
+  3: [4],
+  4: [3, 'H'],
+  'H': [2, 4],
 }
 
-// diamond(Infinity); // log 'this diamonds is too big'
-diamond(1);
-// logs
-// *
+function possiblePath(arr) {
+  if (invalidType(arr)) {
+    console.log('no path provided');
+    return undefined;
+  }
 
-  
-diamond(3);
-// logs
-//  *
-// ***
-//  *
-   
-diamond(9);
-// logs
-//     *
-//    ***
-//   *****
-//  *******
-// *********
-//  *******
-//   *****
-//    ***
-//     *
+  if (invalidElement(arr)) {
+    console.log('invalid path');
+    return undefined;
+  }
+
+  let currentRoom;
+  for (let i = 0; i < arr.length; i += 1) {
+    if (i === 0) {
+      currentRoom = arr[i];
+      continue;
+    }
+    
+    if (VALID_MOVES[currentRoom].includes(arr[i])) {
+      currentRoom = arr[i];
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function invalidType(arg) {
+  return (!Array.isArray(arg) || arg.length === 0);
+}
+
+function invalidElement(arr) {
+  const validElements = [1, 2, 3, 4, 'H'];
+
+  return arr.some(el => !validElements.includes(el));
+}
+
+console.log(possiblePath()); // undefined, log: 'no path provided'
+console.log(possiblePath([])); // undefined, log: 'no path provided'
+console.log(possiblePath({})); // undefined, log: 'no path provided'
+console.log(possiblePath(123)); // undefined, log: 'no path provided'
+
+console.log(possiblePath([1, 2, 'W', 'H'])); // undefined, log: 'invalid path'
+console.log(possiblePath(['2', 'H', 3])); // undefined, log: 'invalid path'
+
+console.log(possiblePath([1, {a: 'apple'}, "H", 4, 3])); // true
+console.log(possiblePath([1, 2, "H", 4, 3])); // true
+console.log(possiblePath(["H", 1, 2])); // false
+console.log(possiblePath([4, 3, 4, "H", 4, "H"])); // true
