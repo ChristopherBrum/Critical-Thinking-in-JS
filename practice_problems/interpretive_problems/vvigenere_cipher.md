@@ -1,3 +1,6 @@
+# Vigenere Cipher
+
+```js
 /*
 The Vigenere Cipher encrypts alphabetic text using polyalphabetic substitution. It uses a series of Caesar Ciphers based on the letters of a keyword. Each letter of the keyword is treated as a shift value. For instance, the letter 'B' corresponds to a shift value of 1, and the letter 'd' corresponds to a shift value of 3. In other words, the shift value used for a letter is equal to its index value in the alphabet. This means that the letters 'a'-'z' are equivalent to the numbers 0-25. The uppercase letters 'A'-'Z' are also equivalent to 0-25.
 
@@ -61,21 +64,30 @@ function vigenereCipher(text, key) {
   let chars = text.split('');
   let shiftValues = key.split('').map(el => ALPHA.indexOf(el));
   let shiftIdx = 0;
-  chars.map(char => {
+
+  let encryptedChars = chars.map(char => {
     let upcase = false;
 
     if (/[^a-z]/i.test(char)) {
       return char;
     } else {
       if (char === char.toUpperCase()) upcase = true;
-
+      
       let shift = shiftValues[shiftIdx] + ALPHA.indexOf(char.toLowerCase());
-      console.log(shift)
+      
+      while (shift > 25) {
+        shift -= 26;
+      }
 
-      shiftIdx = ((shiftIdx + 1) > shiftValues.length) ? 0 : shiftIdx + 1;
+      let newChar = upcase ? ALPHA[shift].toUpperCase() : ALPHA[shift];
+
+      ((shiftIdx + 1) >= shiftValues.length) ? shiftIdx = 0 : shiftIdx += 1;
+
+      return newChar;
     }
-
   });
+
+  console.log(encryptedChars.join(''));
 }
 
 function createAlphabet() {
@@ -88,3 +100,4 @@ function createAlphabet() {
 }
 
 vigenereCipher('Pineapples don\'t go on pizzas!', 'meat') // Bmnxmtpeqw dhz'x gh ar pbldal!
+```
