@@ -1,3 +1,6 @@
+# Star
+
+```js
 /*Write a function that displays an 8-pointed star in an nxn grid, where n is an odd integer that is supplied as an argument to the function. The smallest such star you need to handle is a 7x7 grid (i.e., when n is 7).
 
 Input: 1 number
@@ -66,12 +69,25 @@ Algo:
 */
 
 function star(n) {
-  let star = [];
   let middleSpaces = (n - 3) / 2;
 
   let topOfStar = createTopOfStar(middleSpaces);
-  // get the middle string
+  let middleOfStar = createMiddleOfStar(n);
   let bottomOfStar = topOfStar.slice().reverse();
+
+  let star = topOfStar.concat(middleOfStar).concat(bottomOfStar);
+  
+  star.forEach(line => console.log(line));
+}
+
+function createMiddleOfStar(n) {
+  let str = '';
+
+  for (let i = 0; i < n; i += 1) {
+    str += '*';
+  }
+
+  return str;
 }
 
 function createTopOfStar(middleSpaces) {
@@ -113,7 +129,7 @@ star(7);
 //   ***
 //  * * *
 // *  *  *
-
+console.log('')
 star(9);
 // logs
 // *   *   *
@@ -125,3 +141,4 @@ star(9);
 //   * * *
 //  *  *  *
 // *   *   *
+```
