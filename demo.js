@@ -83,11 +83,6 @@ function isCircular(array) {
 // console.log(isCircular([[0], [0]])); // true
 // console.log(isCircular([[1, 1], [1]])); // true
 // console.log(isCircular([[2, 1], [1]])); // false
-// [[9, 8]] - [[6, 9, 1], [8, 4, 2], [1, 9], [2, 1, 6]]
-// [[9, 8], [8, 4, 2]] - [[6, 9, 1], [1, 9], [2, 1, 6]]
-// [[9, 8], [8, 4, 2], [2, 1, 6]] - [[6, 9, 1], [1, 9]]
-
-
 console.log(isCircular([[9, 8], [6, 9, 1], [8, 4, 2], [1, 9], [2, 1, 6]])); // true
 // console.log(isCircular([[1, 1], [1, 2]])); // false
 // console.log(isCircular([[2, 1], [1, 2]])); // true
