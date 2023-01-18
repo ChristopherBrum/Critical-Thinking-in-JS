@@ -130,3 +130,109 @@ console.log(lightsOn(5));        // [1, 4]
 console.log(lightsOn(10));       // [1, 4, 9]
 console.log(lightsOn(100));      // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ```
+
+## Alternate Solution
+
+```js
+/*
+You have a bank of switches before you, numbered from 1 to n. Every switch is connected to exactly one light that is initially off. You walk down the row of switches and toggle every one of them. You walk back to the beginning of the row and start another pass. On this second pass, you toggle switches 2, 4, 6, and so on. On the third pass, you go back to the beginning again, this time toggling switches 3, 6, 9, and so on. You continue to repeat this process until you have gone through n repetitions.
+
+Write a program that takes one argument—the total number of switches—and returns an array of the lights that are on after n repetitions.
+
+Examples:
+
+lightsOn(5);        // [1, 4]
+// Detailed result of each round for `5` lights
+// Round 1: all lights are on
+// Round 2: lights 2 and 4 are now off;     1, 3, and 5 are on
+// Round 3: lights 2, 3, and 4 are now off; 1 and 5 are on
+// Round 4: lights 2 and 3 are now off;     1, 4, and 5 are on
+// Round 5: lights 2, 3, and 5 are now off; 1 and 4 are on
+
+lightsOn(100);      // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+------------------------------------------------------------
+
+Input: 1 number
+- representing the number of switches we're working with
+
+Output: 1 array
+- each number represents the switches that are on after toggling n number of switches
+
+Rules:
+- taking 1 array as an argument
+- determine which switches are on after toggling every n switches up untl we reach the given number
+  - for example
+  - if given 6
+    - rd 1: every switch is toggled (all switches on) --> 1, 2, 3, 4, 5, 6 all ON
+    - rd 2: every two switches are toggled (2, 4, 6 toggled) --> 1, 3, 5 all ON
+    - rd 3: every 3 switches toggled (3, 6 toggled) --> 1, 5, 6 all ON
+    - rd 4: every 4 switches toggle (4 toggled) --> 1, 4, 5, 6 all ON
+    - rd 5: every 5 switches toggled (5 toggled) --> 1, 4, 6 all ON
+    - rd 6: every 6 switches toggled (6 toggled) --> 1, 4 all ON
+    return [1, 4]
+  
+Implicit Rules:
+- the number arg will always be given
+- the number arg will always be a positive number
+- the given number will be > 0
+
+Pattern:
+- starting with 1 as a incrementer, increment by ascending odd numbers
+- while the value is <= the given number
+  - add the incrementor to the last value passed to the return array, and push to the return array
+
+
+Questions:
+- will there always be 1 arg? yes
+- will the arg always be a number? yes
+- will the number ever be 0 or negative? no
+- can the number eber be NaN , infinity or a decimal? no
+- is there a limit to the size of the number? no
+
+DS:
+- working with arrays as a means of collection number values
+
+Algo:
+- declare a switchesOn variables set to an empty array
+- set a increment variable to 1
+- begin a while loop that breaks while increment is <= to the number passed in
+  - if switchesOn length is 0, 
+    - push increment to the switchesOn array
+  - otherwise
+    - add the last value of switchesOn to increment (sum)
+    - if sum is <= to the number passed in 
+      - push to switchesOn
+  - increment the increment variable by 2
+- return switchesOn
+*/
+
+function lightsOn(switches) {
+  let switchesOn = [];
+  let increment = 1;
+
+  while (increment <= switches) {
+    if (switchesOn.length === 0) {
+      switchesOn.push(increment);
+    } else {
+      let sum = switchesOn.at(-1) + increment;
+      if (sum <= switches) switchesOn.push(sum);
+    }
+
+    increment += 2;
+  }
+
+  return switchesOn;
+}
+
+console.log(lightsOn(1));        // [1]
+console.log(lightsOn(3));        // [1]
+console.log(lightsOn(4));        // [1, 4]
+console.log(lightsOn(5));        // [1, 4]
+console.log(lightsOn(8));        // [1, 4]
+console.log(lightsOn(9));        // [1, 4, 9]
+console.log(lightsOn(15));       // [1, 4, 9]
+console.log(lightsOn(16));       // [1, 4, 9, 16]
+console.log(lightsOn(100));      // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+console.log(lightsOn(121));      // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121]
+```

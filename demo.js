@@ -1,89 +1,119 @@
 /*
-Edabit - Is The Array Circular (https://edabit.com/challenge/TfL5ffvWoEgsoRhuP)
+Edabit - Does the Cargo Fit? (https://edabit.com/challenge/yX8HRSfdHjKji8ikf)
 
-Write a function that determines if an array is circular. An array is circular if its subarrays can be reordered such that each subarray's last element is equal to the next subarray's first element.
+A ship has to transport cargo from one place to another, while picking up cargo along the way. Given the total amount of cargo and the types of cargo holds in the ship as arrays, create a function that returns true if each weight of cargo can fit in one hold, and false if it can't.
 
-For example, the array [[1, 1, 1], [9, 2, 3, 4], [4, 1], [1, 2, 5, 7, 9]] is circular because we can re-arrange the elements to create the following array:
-
-[[9, 2, 3, 4], [4, 1], [1, 1, 1], [1, 2, 5, 7, 9]]
+"S" means 50 cargo space.
+"M" means 100 cargo space.
+"L" means 200 cargo space.
 
 Examples
-isCircular([[9, 8], [6, 9, 1], [8, 4, 2], [1, 9], [2, 1, 6]]) ➞ true
-// Can be reordered: [[9, 8], [8, 4, 2], [2, 1, 6], [6, 9, 1], [1, 9]]
+willFit(["M", "L", "L", "M"], [56, 62, 84, 90]) ➞ true
 
-isCircular([[1, 1], [1, 2]]) ➞ false
+willFit(["S", "S", "S", "S", "L"], [40, 50, 60, 70 , 80, 90, 200]) ➞ false
 
-isCircular([[2, 1], [1, 2]]) ➞ true
+willFit(["L", "L", "M"], [56, 62, 84, 90]) ➞ true
 
-isCircular([[2, 1], [1, 2], [2, 1], [1, 3, 1], [1, 4, 4]]) ➞ false
-
-----------------------------------------
-Input:1 array of arrays
-- will always contain nested arrays
-- nested arrays will never be empty (will always contain at least 1 element)
-- if a nested array contains one element, that will act as the first and last element
-- nested arrays will only contain numbers
-- number elements will always be pos whole numbers or 0
-- there will always be at least 2 nested arrays
-
+Input: 2 arrays
+- first arr will represent the cargo space avaialble using string codes
+- second arr will represent the weight to be picked up
 
 Output: 1 boolean value
+- represents whether the cargo will fit in the transport
 
 Rules:
-- function should determine if the array of arrays is circular
-- the given is ciruclar if:
-  - the array can be rearranged so that the last element of the first array is the same as the first element of the second array
-  - the first element of the first array and the last element of the last array must match
-- the subarrays can be rearranged in any manner
+- the transport space will be given in strings:
+  - "S" means 50 cargo space.
+  - "M" means 100 cargo space.
+  - "L" means 200 cargo space.
+
+Implicit Rules:
+- the second array may contain more elements than the first
+- there may be situations where multiple cargo can be stored in one transport space
+- there can be as little as 1 element in either array arg
+- there is no limit to the number of elements in either array arg
+- the number elements in array 2 will be whole numbers > 0
+- the second array may be shorter than the first
+- the second array may be longer than the first
+- the numbers can be combined to fit into a single transport space
+
+Questions:
+- will there always be 2 args passed in? yes
+- will these two args always be arrays? yes
+- can either of the given array ever be empty? no
 
 DS:
-- working with arrays
+- utilizing arrays for processing
 
 Algo:
-circular(array) --> boolean
-- comare the fistr element of the current array with the last element of the last array
-- AND
-- compare the last element of the current array and the first element of the next array
+- transform the cargo space array into an array of numberic values
+- sort both arrays in ascending order
+- iterate over the space array
+  - decalre a temp array
+  - iterate over the cargo array
+    - if the first element of the cargo array + the remaining values in the temp array > the current space value || the next iteration is undefined
+      - remove the previous elements of the cargo array
+    - move on to the next iteration
 
-MAIN
-- return true if is given array is already circular
-- iterate over the arrays (idx1)
-  - iterate over the arrays again (idx2)
-    - duplicate the given array
-    - set the subarrays to arr1 and arr2
-    - splice the arrays into their opposite positions
-    - if swapped array is circular return true
-- return false
+- if the cargo array is not empty, return false
+- otherwise, return true
 */
 
-// [[9, 8], [8, 4, 2], [2, 1, 6], [6, 9, 1], [1, 9]]
-function arrayIsCircular(array) {
-  return array.every((subarray, subIdx) => {
-    let lastArr = array.at(subIdx - 1);
-    return lastArr[lastArr.length - 1] === subarray[0];
+function transformSpaceValues(arr) {
+  return arr.map(code => {
+    if (code === "L") {
+      return 200;
+    } else if (code === "M") {
+      return 100;
+    } else {
+      return 50;
+    }
   });
 }
 
-function isCircular(array) {
-  if (arrayIsCircular(array)) return true;
-
-  for (let idx1 = 0; idx1 < array.length; idx1 +=1) {
-    for (let idx2 = idx1 + 1; idx2 < array.length; idx2 += 1) {
-      // let arrayCopy = array.slice();
-      let sub1 = array[idx1];
-      let sub2 = array[idx2];
-      array.splice(idx2, 1, sub1);
-      array.splice(idx1, 1, sub2);
-      if (arrayIsCircular(array)) return true;
-    }
-  }
-  return false;
+function tempArrSum(arr) {
+  return arr.reduce((sum, num) => sum + num, 0);
 }
 
-// console.log(isCircular([[0], [0]])); // true
-// console.log(isCircular([[1, 1], [1]])); // true
-// console.log(isCircular([[2, 1], [1]])); // false
-console.log(isCircular([[9, 8], [6, 9, 1], [8, 4, 2], [1, 9], [2, 1, 6]])); // true
-// console.log(isCircular([[1, 1], [1, 2]])); // false
-// console.log(isCircular([[2, 1], [1, 2]])); // true
-// console.log(isCircular([[2, 1], [1, 2], [2, 1], [1, 3, 1], [1, 4, 4]])); // false
+function willFit(space, cargo) {
+  let spaceValues = transformSpaceValues(space);
+  spaceValues.sort((a, b) => a - b);
+  let cargoValues = cargo.slice().sort((a, b) => a - b);
+  
+  spaceValues.forEach(spaceVal => {
+    let tempArr = [];
+    let i = 0;
+
+    while (cargoValues.length > 0 && i < cargoValues.length) {
+      let tempSum = tempArrSum(tempArr);
+
+      if ((cargoValues[i] + tempSum) > spaceVal) {
+        let size = tempArr.length;
+        cargoValues.splice(0, size);
+        tempArr = [cargoValues[0]];
+      } else {
+        tempArr.push(cargoValues[i]);
+      }
+
+      i += 1;
+    }
+
+    // issue here
+    if (tempArr.length > 0) {
+      let size = tempArr.length;
+      cargoValues.splice(0, size);
+    }
+
+    i = 0;
+  });
+
+  console.log(cargoValues)
+  return cargoValues.length === 0 ? true : false;
+}
+
+// console.log(willFit(["L"], [50, 50, 84])); // true
+// console.log(willFit(["M"], [56, 62, 84])); // false
+// console.log(willFit(["M", "L", "L", "M"], [56, 90])); // true
+// console.log(willFit(["M", "L", "L", "M"], [56, 62, 84, 90])); // true
+console.log(willFit(["S", "S", "S", "S", "L"], [40, 50, 60, 70 , 80, 90, 200])); // false
+// console.log(willFit(["L", "L", "M"], [56, 62, 84, 90])); // true
